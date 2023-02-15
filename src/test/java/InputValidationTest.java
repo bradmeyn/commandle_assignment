@@ -103,23 +103,6 @@ public class InputValidationTest {
 
         }
 
-        @Test // Requirement
-        void testRepeatValidGuess() {
-
-            // Add previous guess to the guesses Set
-            String previousGuess = "smart";
-            guesses.add(previousGuess);
-            Scanner scanner = new Scanner(previousGuess + "\n" + "start" );
-            String validGuess = Commandle.getNextValidGuess(scanner, guesses, gameBoard);
-
-            errorMessage = testOut.toString();
-
-            // Test passes if method throws an error with the message below & validGuess variable returned is not the repeated guess ("smart")
-            assertTrue(!validGuess.equals(previousGuess));
-            assertTrue(validGuess.equals("start"));
-            assertTrue(errorMessage.contains("You have already used that word this game. Please enter a new word: "));
-        }
-
         @Test // Requirement 2.2: Guesses containing numerical characters must not be accepted
         void testNumericalCharacters() {
 
@@ -131,7 +114,7 @@ public class InputValidationTest {
 
             // Test passes if error message is created, guess with number is skipped & second input ("start") is returned
             assertFalse(validGuess.equals(numericalGuess));
-            assertFalse(validGuess.equals("start"));
+            assertTrue(validGuess.equals("start"));
             assertFalse(errorMessage.isBlank());
         }
 

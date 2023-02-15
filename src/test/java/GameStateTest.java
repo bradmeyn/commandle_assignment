@@ -6,10 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -51,8 +48,8 @@ public class GameStateTest {
 
 
 
-    @Test // Tests that the main game loop uses 6 turns by default
-    void TestMaxGuessDefault() {
+    @Test // Requirement 5:  For each game, the player can have a maximum of 6 guesses
+    void testMaxGuessDefault() {
 
         // Set the games target word
         gameBoard.setTarget("smart");
@@ -81,8 +78,8 @@ public class GameStateTest {
     }
 
 
-    @Test // Tests that the main game loop ends once the max amount of valid guesses occurs
-    void TestMaxGuessExceeded() {
+    @Test // Requirement 6: A game is won when the player correctly guesses the word within the maximum number of allowed guesses (e.g. 6), otherwise, the game is lost.
+    void testMaxGuessExceeded() {
 
         // Set the games target word
         gameBoard.setTarget("sheet");
@@ -108,8 +105,8 @@ public class GameStateTest {
 //        System.out.println( result);
     }
 
-    @Test
-    void TestSuccessfulGuess() {
+    @Test // Requirement 6: A game is won when the player correctly guesses the word within the maximum number of allowed guesses (e.g. 6), otherwise, the game is lost.
+    void testSuccessfulGuess() {
 
         // Set the games target word
         gameBoard.setTarget("guess");
@@ -135,5 +132,26 @@ public class GameStateTest {
 //        System.setOut(systemOut);
 //        System.out.println(success);
 //        System.out.println( result);
+    }
+
+    @Test // Requirement 7: The same word cannot be guessed more than once in a game.
+    void testRepeatedGuess() {
+        gameBoard.setTarget("guess");
+        System.setErr(new PrintStream(testOut));
+        HashSet guesses = new HashSet<>();
+
+        // Add 'smart' to list of guesses
+        guesses.add("smart");
+
+        // Guess with number 8 in it should not be treated as a valid guess
+        String repeatedGuess = "smart";
+        Scanner scanner = new Scanner(repeatedGuess + "\n" + "start" );
+        String validGuess = Commandle.getNextValidGuess(scanner, guesses, gameBoard);
+        String errorMessage = testOut.toString();
+
+        // Test passes if error message is created warning about duplicate guess and valid guess returned from method is second guess input
+        assertFalse(validGuess.equals(repeatedGuess));
+        assertTrue(validGuess.equals("start"));
+        assertTrue(errorMessage.contains("You have already used that word this game. Please enter a new word."));
     }
 }

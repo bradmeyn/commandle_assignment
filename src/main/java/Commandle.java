@@ -83,9 +83,9 @@ public class Commandle {
         } else if (guess.length() < 5) {
             System.err.print("Input: "+ guess+ "\nWords less than 5 letters are invalid. Please enter a valid word: ");
         } else if (guesses.contains(guess)) {
-            System.err.print("Input: "+ guess+ "\nYou have already used that word this game. Please enter a new word: ");
+            System.err.print("Input: "+ guess+ "\nYou have already used that word this game. Please enter a new word. ");
         } else if (!gameBoard.containsWord(guess)) {
-            System.err.print(guess + " is not valid "+ " Please enter a valid word: ");
+            System.err.print(guess + " is not valid"+ " Please enter a valid word: ");
         } else {
             guesses.add(guess);
             return guess;
